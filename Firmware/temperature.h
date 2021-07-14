@@ -27,6 +27,9 @@
   #include "stepper.h"
 #endif
 
+#define ENABLE_TEMPERATURE_INTERRUPT()  TIMSK0 |= (1<<OCIE0B)
+#define DISABLE_TEMPERATURE_INTERRUPT() TIMSK0 &= ~(1<<OCIE0B)
+
 // public functions
 void tp_init();  //initialize the heating
 void manage_heater(); //it is critical that this is called periodically.
@@ -49,6 +52,25 @@ extern float current_temperature[EXTRUDERS];
 #endif
 extern int target_temperature_bed;
 extern float current_temperature_bed;
+
+#ifdef PINDA_THERMISTOR
+//extern int current_temperature_raw_pinda;
+extern float current_temperature_pinda;
+#endif
+
+#ifdef AMBIENT_THERMISTOR
+//extern int current_temperature_raw_ambient;
+extern float current_temperature_ambient;
+#endif
+
+#ifdef VOLT_PWR_PIN
+extern int current_voltage_raw_pwr;
+#endif
+
+#ifdef VOLT_BED_PIN
+extern int current_voltage_raw_bed;
+#endif
+
 #ifdef TEMP_SENSOR_1_AS_REDUNDANT
   extern float redundant_temperature;
 #endif

@@ -46,6 +46,25 @@ int target_temperature[EXTRUDERS] = { 0 };
 int target_temperature_bed = 0;
 int current_temperature_raw[EXTRUDERS] = { 0 };
 float current_temperature[EXTRUDERS] = { 0.0 };
+
+#ifdef PINDA_THERMISTOR
+int current_temperature_raw_pinda =  0 ;
+float current_temperature_pinda = 0.0;
+#endif //PINDA_THERMISTOR
+
+#ifdef AMBIENT_THERMISTOR
+int current_temperature_raw_ambient =  0 ;
+float current_temperature_ambient = 0.0;
+#endif //AMBIENT_THERMISTOR
+
+#ifdef VOLT_PWR_PIN
+int current_voltage_raw_pwr = 0;
+#endif
+
+#ifdef VOLT_BED_PIN
+int current_voltage_raw_bed = 0;
+#endif
+
 int current_temperature_bed_raw = 0;
 float current_temperature_bed = 0.0;
 #ifdef TEMP_SENSOR_1_AS_REDUNDANT
@@ -577,7 +596,11 @@ void manage_heater()
   #endif
 
     // Check if temperature is within the correct range
-    if((current_temperature[e] < maxttemp[e]) && (target_temperature[e] != 0))
+#ifdef AMBIENT_THERMISTOR
+    if(((current_temperature_ambient < MINTEMP_MINAMBIENT) || (current_temperature[e] > minttemp[e])) && (current_temperature[e] < maxttemp[e])) 
+#else //AMBIENT_THERMISTOR
+    if((current_temperature[e] > minttemp[e]) && (current_temperature[e] < maxttemp[e])) 
+#endif //AMBIENT_THERMISTOR
     {
       soft_pwm[e] = (int)pid_output >> 1;
     }
@@ -661,7 +684,11 @@ void manage_heater()
       pid_output = constrain(target_temperature_bed, 0, MAX_BED_POWER);
     #endif //PID_OPENLOOP
 
+#ifdef AMBIENT_THERMISTOR
+	  if(((current_temperature_bed > BED_MINTEMP) || (current_temperature_ambient < MINTEMP_MINAMBIENT)) && (current_temperature_bed < BED_MAXTEMP)) 
+#else //AMBIENT_THERMISTOR
 	  if((current_temperature_bed > BED_MINTEMP) && (current_temperature_bed < BED_MAXTEMP)) 
+#endif //AMBIENT_THERMISTOR
 	  {
 	    soft_pwm_bed = (int)pid_output >> 1;
 	  }
@@ -838,6 +865,29 @@ static float analog2tempBed(int raw) {
   #endif
 }
 
+#ifdef AMBIENT_THERMISTOR
+static float analog2tempAmbient(int raw)
+{
+    float celsius = 0;
+    byte i;
+
+    for (i=1; i<AMBIENTTEMPTABLE_LEN; i++)
+    {
+      if (PGM_RD_W(AMBIENTTEMPTABLE[i][0]) > raw)
+      {
+        celsius  = PGM_RD_W(AMBIENTTEMPTABLE[i-1][1]) + 
+          (raw - PGM_RD_W(AMBIENTTEMPTABLE[i-1][0])) * 
+          (float)(PGM_RD_W(AMBIENTTEMPTABLE[i][1]) - PGM_RD_W(AMBIENTTEMPTABLE[i-1][1])) /
+          (float)(PGM_RD_W(AMBIENTTEMPTABLE[i][0]) - PGM_RD_W(AMBIENTTEMPTABLE[i-1][0]));
+        break;
+      }
+    }
+    // Overflow: Set to last value in the table
+    if (i == AMBIENTTEMPTABLE_LEN) celsius = PGM_RD_W(AMBIENTTEMPTABLE[i-1][1]);
+    return celsius;
+}
+#endif //AMBIENT_THERMISTOR
+
 /* Called to get the raw values into the the actual temperatures. The raw values are created in interrupt context,
     and this function is called from normal context as it is too slow to run in interrupts and will block the stepper routine otherwise */
 static void updateTemperaturesFromRawValues()
@@ -846,7 +896,15 @@ static void updateTemperaturesFromRawValues()
     {
         current_temperature[e] = analog2temp(current_temperature_raw[e], e);
     }
-    
+
+#ifdef PINDA_THERMISTOR
+	current_temperature_pinda = analog2tempBed(current_temperature_raw_pinda); //thermistor for pinda is the same as for bed
+#endif
+
+#ifdef AMBIENT_THERMISTOR
+	current_temperature_ambient = analog2tempAmbient(current_temperature_raw_ambient); //thermistor for ambient is NTCG104LH104JT1 (2000)
+#endif
+   
 	current_temperature_bed = analog2tempBed(current_temperature_bed_raw);
 
     #ifdef TEMP_SENSOR_1_AS_REDUNDANT
