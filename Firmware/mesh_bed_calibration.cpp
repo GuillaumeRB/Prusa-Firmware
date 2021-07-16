@@ -2037,15 +2037,16 @@ BedSkewOffsetDetectionResultType find_bed_offset_and_skew(int8_t verbosity_level
 //    SERIAL_ECHO(int(verbosity_level));
 //    SERIAL_ECHOPGM("");
 	
-#ifdef NEW_XYZCAL
-	{
-#else //NEW_XYZCAL
+//#ifdef NEW_XYZCAL
+//	{
+//#else //NEW_XYZCAL
 	while (iteration < 3) {
-#endif //NEW_XYZCAL
+//#endif //NEW_XYZCAL
 
 		SERIAL_ECHOPGM("Iteration: ");
 		MYSERIAL.println(int(iteration + 1));
 		#ifdef SUPPORT_VERBOSITY
+		verbosity_level = 25;
 		if (verbosity_level >= 20) {
 		SERIAL_ECHOLNPGM("Vectors: ");
 		
