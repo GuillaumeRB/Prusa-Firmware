@@ -24,6 +24,9 @@ GENERAL SETTINGS
 // Electronics
 #define MOTHERBOARD BOARD_RAMBO_MINI_1_3
 
+#define HEATBED_V2
+#define STEEL_SHEET
+
 // Prusa Single extruder multiple material suport
 //#define SNMM
 
@@ -85,6 +88,15 @@ AXIS SETTINGS
 #define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
 #define HOMING_FEEDRATE {3000, 3000, 800, 0}  // set the homing speeds (mm/min)
 
+/**
+ * [0,0] steel sheet print area point X coordinate in bed print area coordinates
+ */
+#define SHEET_PRINT_ZERO_REF_X 0.f
+/**
+ * [0,0] steel sheet print area point Y coordinate in bed print area coordinates
+ */
+#define SHEET_PRINT_ZERO_REF_Y 0.f
+
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 12, 120}    // (mm/sec)
 #define DEFAULT_MAX_FEEDRATE_SILENT         {172, 172, 12, 120}      // (mm/sec)   max feedrate (M203), silent mode
 #define DEFAULT_MAX_ACCELERATION      {9000,9000,500,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for Skeinforge 40+, for older versions raise them a lot.
@@ -100,7 +112,7 @@ AXIS SETTINGS
 #define Z_AXIS_ALWAYS_ON 1
 
 // New XYZ calibration
-//#define NEW_XYZCAL
+#define NEW_XYZCAL
 
 // Watchdog support
 #define WATCHDOG
@@ -241,10 +253,10 @@ BED SETTINGS
 #define MBL_Z_STEP 0.01
 
 // Mesh definitions
-#define MESH_MIN_X 35
-#define MESH_MAX_X 238
+#define MESH_MIN_X 24
+#define MESH_MAX_X 228
 #define MESH_MIN_Y 6
-#define MESH_MAX_Y 202
+#define MESH_MAX_Y 210
 
 // Mesh upsample definition
 #define MESH_NUM_X_POINTS 7
