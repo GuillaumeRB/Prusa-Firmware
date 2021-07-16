@@ -2021,6 +2021,8 @@ BedSkewOffsetDetectionResultType find_bed_offset_and_skew(int8_t verbosity_level
     // Don't let the manage_inactivity() function remove power from the motors.
     refresh_cmd_timeout();
 
+    SERIAL_ECHO("STEP 4 \n");
+
     // Reusing the z_values memory for the measurement cache.
     // 7x7=49 floats, good for 16 (x,y,z) vectors.
     float *pts = &mbl.z_values[0][0];

@@ -2264,19 +2264,20 @@ bool gcode_M45(bool onlyZ) {
 		  SERIAL_ECHO("STEP 2 \n");
 		  
 			//if wizard is active and selftest was succefully completed, we dont want to loose information about it
-			//if (calibration_status() != 250 || eeprom_read_byte((uint8_t*)EEPROM_WIZARD_ACTIVE) == 0) {				
-			//	calibration_status_store(CALIBRATION_STATUS_ASSEMBLED);
-			//}
+		  if (calibration_status() != 250 || eeprom_read_byte((uint8_t*)EEPROM_WIZARD_ACTIVE) == 0) {
+		    calibration_status_store(CALIBRATION_STATUS_ASSEMBLED);
+		  }
 			// Reset the baby step value and the baby step applied flag.
-		  //eeprom_update_word((uint16_t*)EEPROM_BABYSTEP_Z, 0);
-			// Complete XYZ calibration.
-			uint8_t point_too_far_mask = 0;
-			BedSkewOffsetDetectionResultType result = find_bed_offset_and_skew(verbosity_level, point_too_far_mask);
+		  eeprom_update_word((uint16_t*)EEPROM_BABYSTEP_Z, 0);
+		  // Complete XYZ calibration.
+		  SERIAL_ECHO("STEP 3 \n");
+		  uint8_t point_too_far_mask = 0;
+		  BedSkewOffsetDetectionResultType result = find_bed_offset_and_skew(verbosity_level, point_too_far_mask);
 			
 
 			clean_up_after_endstop_move();
 
-			SERIAL_ECHO("STEP 3 \n");
+			SERIAL_ECHO("STEP 5 \n");
 			
 			// Print head up.
 			current_position[Z_AXIS] = MESH_HOME_Z_SEARCH;
