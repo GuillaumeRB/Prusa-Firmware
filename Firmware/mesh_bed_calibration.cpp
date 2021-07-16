@@ -2655,8 +2655,7 @@ bool sample_mesh_and_store_reference()
 
 #ifdef MESH_BED_CALIBRATION_SHOW_LCD
     uint8_t next_line;
-    lcd_display_message_fullscreen_P("WE GOT HERE", next_line);
-    delay(10000);
+    SERIAL_ECHO("WHATS_UP");
     lcd_display_message_fullscreen_P(MSG_MEASURE_BED_REFERENCE_HEIGHT_LINE1, next_line);
     if (next_line > 3)
         next_line = 3;

@@ -2198,6 +2198,8 @@ bool gcode_M45(bool onlyZ) {
 		adjust_bed_reset(); //reset bed level correction
 	}
 
+	SERIAL_ECHO("STEP ONE");
+
 	// Disable the default update procedure of the display. We will do a modal dialog.
 	lcd_update_enable(false);
 	// Let the planner use the uncorrected coordinates.
