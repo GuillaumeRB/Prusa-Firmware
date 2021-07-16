@@ -2198,7 +2198,7 @@ bool gcode_M45(bool onlyZ) {
 		adjust_bed_reset(); //reset bed level correction
 	}
 
-	SERIAL_ECHO("STEP ONE\n");
+	SERIAL_ECHO("STEP 1\n");
 
 	// Disable the default update procedure of the display. We will do a modal dialog.
 	lcd_update_enable(false);
@@ -2275,6 +2275,9 @@ bool gcode_M45(bool onlyZ) {
 			
 
 			clean_up_after_endstop_move();
+
+			SERIAL_ECHO("STEP 3 \n");
+			
 			// Print head up.
 			current_position[Z_AXIS] = MESH_HOME_Z_SEARCH;
 			plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], homing_feedrate[Z_AXIS] / 40, active_extruder);
