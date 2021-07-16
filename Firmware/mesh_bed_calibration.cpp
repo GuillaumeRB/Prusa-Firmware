@@ -2141,6 +2141,8 @@ BedSkewOffsetDetectionResultType find_bed_offset_and_skew(int8_t verbosity_level
 		#endif // SUPPORT_VERBOSITY
 
 		go_to_current(homing_feedrate[X_AXIS] / 60.f);
+
+		SERIAL_ECHO("STEP 6 \n");
 		#ifdef SUPPORT_VERBOSITY
 		if (verbosity_level >= 10)
 			delay_keep_alive(3000);
