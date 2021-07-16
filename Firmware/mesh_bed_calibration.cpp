@@ -2046,6 +2046,7 @@ BedSkewOffsetDetectionResultType find_bed_offset_and_skew(int8_t verbosity_level
 		SERIAL_ECHOPGM("Iteration: ");
 		MYSERIAL.println(int(iteration + 1));
 		#ifdef SUPPORT_VERBOSITY
+		SERIAL_ECHO("STEP 5 \n");
 		verbosity_level = 25;
 		if (verbosity_level >= 20) {
 		SERIAL_ECHOLNPGM("Vectors: ");
