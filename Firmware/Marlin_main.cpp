@@ -2198,7 +2198,7 @@ bool gcode_M45(bool onlyZ) {
 		adjust_bed_reset(); //reset bed level correction
 	}
 
-	SERIAL_ECHO("STEP ONE");
+	SERIAL_ECHO("STEP ONE\n");
 
 	// Disable the default update procedure of the display. We will do a modal dialog.
 	lcd_update_enable(false);
@@ -2261,12 +2261,14 @@ bool gcode_M45(bool onlyZ) {
 			}
 		}
 		else {
+		  SERIAL_ECHO("STEP 2 \n");
+		  
 			//if wizard is active and selftest was succefully completed, we dont want to loose information about it
-			if (calibration_status() != 250 || eeprom_read_byte((uint8_t*)EEPROM_WIZARD_ACTIVE) == 0) {				
-				calibration_status_store(CALIBRATION_STATUS_ASSEMBLED);
-			}
+			//if (calibration_status() != 250 || eeprom_read_byte((uint8_t*)EEPROM_WIZARD_ACTIVE) == 0) {				
+			//	calibration_status_store(CALIBRATION_STATUS_ASSEMBLED);
+			//}
 			// Reset the baby step value and the baby step applied flag.
-			eeprom_update_word((uint16_t*)EEPROM_BABYSTEP_Z, 0);
+		  eeprom_update_word((uint16_t*)EEPROM_BABYSTEP_Z, 0);
 			// Complete XYZ calibration.
 			uint8_t point_too_far_mask = 0;
 			BedSkewOffsetDetectionResultType result = find_bed_offset_and_skew(verbosity_level, point_too_far_mask);
