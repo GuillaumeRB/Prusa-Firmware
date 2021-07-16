@@ -196,7 +196,7 @@ unsigned char firstrun = 1;
 
 /* Different menus */
 static void lcd_status_screen();
-#ifdef ULTIPANEL
+//#ifdef ULTIPANEL
 extern bool powersupply;
 static void lcd_main_menu();
 static void lcd_tune_menu();
@@ -5391,14 +5391,14 @@ static void lcd_tune_menu()
 	MENU_ITEM(function, MSG_FILAMENTCHANGE, lcd_colorprint_change);//7
 #endif
 
-#ifndef DEBUG_DISABLE_FSENSORCHECK
-	if (FSensorStateMenu == 0) {
-		MENU_ITEM(function, MSG_FSENSOR_OFF, lcd_fsensor_state_set);
-	}
-	else {
-		MENU_ITEM(function, MSG_FSENSOR_ON, lcd_fsensor_state_set);
-	}
-#endif //DEBUG_DISABLE_FSENSORCHECK
+//#ifndef DEBUG_DISABLE_FSENSORCHECK
+//	if (FSensorStateMenu == 0) {
+//		MENU_ITEM(function, MSG_FSENSOR_OFF, lcd_fsensor_state_set);
+//	}
+//	else {
+//		MENU_ITEM(function, MSG_FSENSOR_ON, lcd_fsensor_state_set);
+//	}
+//#endif //DEBUG_DISABLE_FSENSORCHECK
 
 #ifdef TMC2130
 	if (SilentModeMenu == 0) MENU_ITEM(function, MSG_SILENT_MODE_OFF, lcd_silent_mode_set);
@@ -7166,11 +7166,11 @@ void lcd_buttons_update()
 		  newbutton |= EN_C; 
   }
   
-#endif  
+#endif  //BTN_ENC
   buttons = newbutton;
 #ifdef LCD_HAS_SLOW_BUTTONS
   buttons |= slow_buttons;
-#endif
+#endif //LCD_HAS_SLOW_BUTTONS
 #ifdef REPRAPWORLD_KEYPAD
   // for the reprapworld_keypad
   uint8_t newbutton_reprapworld_keypad = 0;
@@ -7184,7 +7184,7 @@ void lcd_buttons_update()
     WRITE(SHIFT_CLK, LOW);
   }
   buttons_reprapworld_keypad = ~newbutton_reprapworld_keypad; //invert it, because a pressed switch produces a logical 0
-#endif
+#endif //REPRAPWORLD_KEYPAD
 #else   //read it from the shift register
   uint8_t newbutton = 0;
   WRITE(SHIFT_LD, LOW);
@@ -7261,7 +7261,7 @@ bool lcd_clicked()
 	if(clicked) button_pressed = false;
     return clicked;
 }
-#endif//ULTIPANEL
+//#endif//ULTIPANEL
 
 /********************************/
 /** Float conversion utilities **/

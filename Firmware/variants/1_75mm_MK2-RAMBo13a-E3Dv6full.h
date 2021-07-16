@@ -6,6 +6,7 @@ GENERAL SETTINGS
 *------------------------------------*/
 
 // Printer revision
+#define PRINTER_TYPE PRINTER_MK2
 #define FILAMENT_SIZE "1_75mm_MK2"
 #define NOZZLE_TYPE "E3Dv6full"
 
@@ -17,6 +18,9 @@ GENERAL SETTINGS
 
 // Electronics
 #define MOTHERBOARD BOARD_RAMBO_MINI_1_3
+
+#define HEATBED_V2
+#define STEEL_SHEET
 
 // Prusa Single extruder multiple material suport
 //#define SNMM
@@ -141,6 +145,9 @@ EXTRUDER SETTINGS
 #define E_MOTOR_LOW_CURRENT 350 // current for PRUSAY code
 #define E_MOTOR_HIGH_CURRENT 700 //current for unloading filament, stop print, PRUSAY ramming
 #endif //SNMM
+
+// New XYZ calibration
+#define NEW_XYZCAL
 
 //#define DIS //for measuring bed heigth and PINDa detection heigth relative to auto home point, experimental function
 
